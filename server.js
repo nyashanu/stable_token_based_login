@@ -1,21 +1,25 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 8080;
-
+// var port = process.env.PORT || 8080;
+var path = require('path');
+var exphbs = require('express-handlebars');
+var expressValidator = require('express-validator');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var mongo = require('mongodb');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var flash = require('connect-flash');
+var LocalStrategy = require('passport-local').Strategy;
 var MongoStore = require('connect-mongo')(session);
 
-
+app.set('port', (process.env.PORT || 5000));
 var configDB = require('./config/database.js');
 mongoose.connect('mongodb://test:test@ds015878.mlab.com:15878/heroku_q0q4cd13');
 require('./config/passport')(passport);
-
+var db = mongoose.connection;
 app.use(express.static(__dirname + '/public'));
 
 app.use(morgan('dev'));
@@ -46,9 +50,11 @@ require('./app/routes/secure.js')(secure, passport);
 app.use('/', secure);
 
 
-app.listen(port);
-console.log('Server running on port: ' + port);
+// app.listen(port);
+// console.log('Server running on port: ' + port);
 
-
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 
