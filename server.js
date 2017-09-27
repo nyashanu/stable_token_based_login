@@ -11,7 +11,7 @@ var flash = require('connect-flash');
 
 var port = process.env.PORT || 8080;
 
-app.use(express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/public'));
 
 
 var configDB = require('./config/database.js');
@@ -33,11 +33,17 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // 
 require('./app/routes.js')(app, passport);
 // 
+	app.get('/x', function(req, res){
+		res.render('x.ejs');
+	});
 
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
-app.get('/', function(req, res) {
-	res.render('public/index');
-})
+// app.get('/', function(req, res) {
+// 	res.render('/index');
+// })
 
 app.listen(port, function() {
 	console.log('app running')
