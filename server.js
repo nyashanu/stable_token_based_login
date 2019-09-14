@@ -15,7 +15,9 @@ app.use(express.static(__dirname + '/public'));
 
 
 var configDB = require('./config/database.js');
-mongoose.connect('mongodb://test:test@ds111138.mlab.com:11138/heroku_l2mzhqqg');
+
+
+mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds127928.mlab.com:27928/heroku_0v2hfpdx');
 require('./config/passport')(passport);
 
 app.use(morgan('dev'));
